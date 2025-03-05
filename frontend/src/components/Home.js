@@ -11,20 +11,20 @@ const Home = () => {
 
     return (
         <div>
-            <h2>Добро пожаловать!</h2>
+            <h2>Welcome!</h2>
             {token ? (
                 <>
-                    <p>Вы вошли в систему</p>
-                    <button onClick={handleLogout}>Выйти</button>
+                    <p>You are logged in!</p>
+                    <button onClick={handleLogout}>Exit</button>
                 </>
             ) : (
                 <>
-                    <p>Выберите действие:</p>
+                    <p>Select an action:</p>
                     <Link to="/login">
-                        <button>Войти</button>
+                        <button>Log in</button>
                     </Link>
                     <Link to="/register">
-                        <button>Зарегистрироваться</button>
+                        <button>Register</button>
                     </Link>
                 </>
             )}
