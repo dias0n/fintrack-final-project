@@ -5,6 +5,7 @@ from .serializers import UserSerializer, RegisterSerializer, CategorySerializer,
 from .models import User, Category, Transaction
 from rest_framework import generics
 from rest_framework import viewsets, permissions
+from rest_framework.decorators import api_view, permission_classes
 
 
 class CurrentUserView(APIView):
@@ -42,4 +43,24 @@ class TransactionViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_balance(request):
+    transactions = Transaction.objects.filter(user=request.user).order_by('date')
+
+    balance = 0
+    history = []
+
+    for t in transactions:
+        if t.type == 'income':
+            balance += t.amount
+        else:
+            balance -= t.amount
+        history.append(balance)
+
+    return Response({
+        'current_balance': balance,
+        'history': history
+    })
 
